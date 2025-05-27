@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scorers</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+    h1 { font-size: 1.5em; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Top Scorers</h1>
+  <table id="scorers">
+    <thead>
+      <tr><th>Name</th><th>Team</th><th>Goals</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+<!-- https://docs.google.com/spreadsheets/d/e/2PACX-1vSqkB0i9xnb8zuFxcQMRcCNc89VX-S16BnxtJf_pwZsyjIDECdiDtazU8zCp2NIxZ21Ov5bBD7OzZlY/pub?output=csv
+ -->
+  <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/2PACX-1vSqkB0i9xnb8zuFxcQMRcCNc89VX-S16BnxtJf_pwZsyjIDECdiDtazU8zCp2NIxZ21Ov5bBD7OzZlY/gviz/tq?tqx=out:csv';
+
+    fetch(SHEET_URL)
+      .then(response => response.text())
+      .then(csvText => {
+        const rows = csvText.trim().split('\n').slice(1);
+        const data = rows.map(row => {
+          const [name, team, goals] = row.split(',');
+          return { name, team, goals: parseInt(goals) };
+        });
+
+        data.sort((a, b) => b.goals - a.goals);
+
+        const tbody = document.querySelector('#scorers tbody');
+        data.forEach(player => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${player.name}</td><td>${player.team}</td><td>${player.goals}</td>`;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error('Error loading data:', err));
+  </script>
+</body>
+</html>
