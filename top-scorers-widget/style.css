@@ -19,8 +19,7 @@ body {
   }
   
   th {
-    background-color: #222;
-    color: #fff;
+    color: black;
   }
   
   tr:nth-child(even) {
