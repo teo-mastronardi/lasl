@@ -16,27 +16,37 @@
   <h1>Top Scorers</h1>
   <table id="scorers">
     <thead>
-      <tr><th>Name</th><th>Team</th><th>Goals</th></tr>
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Goals</th>
+      </tr>
     </thead>
     <tbody></tbody>
   </table>
-<!-- https://docs.google.com/spreadsheets/d/e/2PACX-1vSqkB0i9xnb8zuFxcQMRcCNc89VX-S16BnxtJf_pwZsyjIDECdiDtazU8zCp2NIxZ21Ov5bBD7OzZlY/pub?output=csv
- -->
+
   <script>
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1Xg4qPmQFXtY_xbhtm8VvQqkoQY2nUbV2js/pub?output=csv&t=" + new Date().getTime();';
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSqkB0i9xnb8zuFxcQMRcCNc89VX-S16BnxtJf_pwZsyjIDECdiDtazU8zCp2NIxZ21Ov5bBD7OzZlY/pub?output=csv";
 
     fetch(SHEET_URL)
       .then(response => response.text())
       .then(csvText => {
-        const rows = csvText.trim().split('\n').slice(1);
+        const rows = csvText.trim().split('\n').slice(1); 
+        //console.log('CSV Data:', rows);
+
         const data = rows.map(row => {
           const [name, team, goals] = row.split(',');
-          return { name, team, goals: parseInt(goals) };
+          return { name, team, goals: parseInt(goals, 10) };
         });
 
+        // Sort descending by goals
         data.sort((a, b) => b.goals - a.goals);
 
+        // Clear old rows
         const tbody = document.querySelector('#scorers tbody');
+        tbody.innerHTML = '';
+
+        // Populate table
         data.forEach(player => {
           const tr = document.createElement('tr');
           tr.innerHTML = `<td>${player.name}</td><td>${player.team}</td><td>${player.goals}</td>`;
