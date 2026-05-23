@@ -1,0 +1,35 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/schedule-1", "destination": "/schedule", "permanent": true },
+    { "source": "/league-table", "destination": "/standings", "permanent": true },
+    { "source": "/fc-red", "destination": "/team/fc-red", "permanent": true },
+    { "source": "/fc-maroon", "destination": "/team/fc-maroon", "permanent": true },
+    { "source": "/fc-blue", "destination": "/team/fc-blue", "permanent": true },
+    { "source": "/fc-purple", "destination": "/team/fc-purple", "permanent": true },
+    { "source": "/fc-grey", "destination": "/team/fc-grey", "permanent": true },
+    { "source": "/fc-gold", "destination": "/team/fc-gold", "permanent": true },
+    { "source": "/fc-green", "destination": "/team/fc-green", "permanent": true },
+    {
+      "source": "/fc-carolina-blue",
+      "destination": "/team/fc-carolina-blue",
+      "permanent": true
+    }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}

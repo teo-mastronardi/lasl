@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   LASL design tokens — dark theme.
+
+   Matches the original lasl.ca look: a white header, dark content sections,
+   and bold uppercase headings. Brand colours are taken from the LASL crest
+   (navy + red + yellow). Tailwind v4 turns each --color-* into utilities,
+   e.g. --color-surface -> bg-surface / text-surface / border-surface
+   --------------------------------------------------------------------------- */
+@theme {
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+
+  /* Brand accent — the red from the LASL crest; pops on dark surfaces */
+  --color-brand: #e8473d;
+  --color-brand-dark: #c93a31;
+  --color-brand-light: #f17a72;
+
+  /* Crest navy — used for the hero and deep accents */
+  --color-navy: #1b2a52;
+  --color-navy-dark: #0f1a38;
+
+  /* Crest yellow — small highlights */
+  --color-gold: #f4ce3a;
+
+  /* Dark UI surfaces */
+  --color-bg: #0b0b0c; /* page background          */
+  --color-surface: #161618; /* cards / panels           */
+  --color-surface-2: #212126; /* raised: inputs, headers  */
+  --color-line: #2c2c31; /* borders / dividers       */
+}
+
+/* ---------------------------------------------------------------------------
+   Base element styles
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Render native controls (selects, scrollbars) in dark mode. */
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: #d4d4d8; /* neutral-300 */
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headings sit on dark surfaces throughout the site. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* Visible keyboard-focus outline for accessibility. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}

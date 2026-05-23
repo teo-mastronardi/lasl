@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://lasl.ca/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lasl.ca/schedule</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lasl.ca/results</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lasl.ca/standings</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lasl.ca/stats</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lasl.ca/teams</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lasl.ca/rules</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/registration</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <!-- <url><loc>https://lasl.ca/sponsors</loc><changefreq>monthly</changefreq><priority>0.5</priority></url> -->
+  <url><loc>https://lasl.ca/contact</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-red</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-maroon</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-blue</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-purple</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-grey</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-gold</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-green</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lasl.ca/team/fc-carolina-blue</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+</urlset>
