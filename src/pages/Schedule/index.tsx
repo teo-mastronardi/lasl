@@ -10,7 +10,14 @@ import { MatchCard } from '@/components/cards/MatchCard';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useLeagueData } from '@/hooks/useLeagueData';
 import { findTeam, groupByDate, matchesTeam } from '@/utils/league';
-import { compareDates, formatLongDate } from '@/utils/format';
+import type { DateGroup } from '@/utils/league';
+import type { ScheduleMatch } from '@/types/league';
+import {
+  compareDates,
+  formatLongDate,
+  parseLeagueDate,
+  startOfToday,
+} from '@/utils/format';
 
 export default function SchedulePage() {
   useDocumentTitle({
@@ -31,7 +38,8 @@ export default function SchedulePage() {
     return new Map(dates.map((date, index) => [date, index + 1]));
   }, [data.schedule]);
 
-  const groups = useMemo(() => {
+  // Split match days into upcoming (today + future) and already-played.
+  const { upcoming, past } = useMemo(() => {
     const team =
       teamFilter === 'all' ? undefined : findTeam(data.teams, teamFilter);
     const filtered = team
@@ -39,7 +47,18 @@ export default function SchedulePage() {
           (m) => matchesTeam(m.home, team) || matchesTeam(m.away, team),
         )
       : data.schedule;
-    return groupByDate(filtered, (m) => m.date, 'asc');
+    const all = groupByDate(filtered, (m) => m.date, 'asc');
+    const today = startOfToday();
+    const up: DateGroup<ScheduleMatch>[] = [];
+    const back: DateGroup<ScheduleMatch>[] = [];
+    for (const group of all) {
+      const d = parseLeagueDate(group.date);
+      // Treat unparseable / today-and-after dates as upcoming.
+      if (!d || d >= today) up.push(group);
+      else back.push(group);
+    }
+    back.reverse(); // most recently played first
+    return { upcoming: up, past: back };
   }, [data.schedule, data.teams, teamFilter]);
 
   const teamOptions = [
@@ -49,11 +68,31 @@ export default function SchedulePage() {
       .map((t) => ({ value: t.slug, label: t.name })),
   ];
 
+  const renderGroup = (group: DateGroup<ScheduleMatch>) => (
+    <section key={group.date}>
+      <h2 className="mb-3 flex flex-wrap items-baseline gap-x-2 text-lg font-extrabold uppercase tracking-tight text-white">
+        Match Day {matchDays.get(group.date)}
+        <span className="text-sm font-medium normal-case text-neutral-400">
+          {formatLongDate(group.date)}
+        </span>
+      </h2>
+      <div className="grid gap-4 md:grid-cols-2">
+        {group.items.map((match, index) => (
+          <MatchCard
+            key={`${match.home}-${match.away}-${index}`}
+            match={match}
+            teams={data.teams}
+            hideDate
+          />
+        ))}
+      </div>
+    </section>
+  );
+
   return (
     <>
       <PageHeader title="Schedule" eyebrow="2026 Season" />
       <PageContainer className="py-10 sm:py-12">
-
         {loading && <Loading label="Loading schedule…" />}
         {error && !loading && <ErrorState message={error} />}
 
@@ -68,7 +107,7 @@ export default function SchedulePage() {
               />
             </div>
 
-            {groups.length === 0 ? (
+            {upcoming.length === 0 && past.length === 0 ? (
               <EmptyState
                 title="No matches scheduled"
                 message="The schedule will appear here once it has been published."
@@ -76,26 +115,16 @@ export default function SchedulePage() {
               />
             ) : (
               <div className="space-y-8">
-                {groups.map((group) => (
-                  <section key={group.date}>
-                    <h2 className="mb-3 flex flex-wrap items-baseline gap-x-2 text-lg font-extrabold uppercase tracking-tight text-white">
-                      Match Day {matchDays.get(group.date)}
-                      <span className="text-sm font-medium normal-case text-neutral-400">
-                        {formatLongDate(group.date)}
-                      </span>
-                    </h2>
-                    <div className="grid gap-4 md:grid-cols-2">
-                      {group.items.map((match, index) => (
-                        <MatchCard
-                          key={`${match.home}-${match.away}-${index}`}
-                          match={match}
-                          teams={data.teams}
-                          hideDate
-                        />
-                      ))}
-                    </div>
-                  </section>
-                ))}
+                {upcoming.map(renderGroup)}
+
+                {past.length > 0 && (
+                  <div className="space-y-8 border-t border-line pt-8">
+                    <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">
+                      Played match days
+                    </p>
+                    {past.map(renderGroup)}
+                  </div>
+                )}
               </div>
             )}
           </>
