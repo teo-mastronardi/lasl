@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Loading } from '@/components/common/Loading';
+import { CancellationBanner } from '@/components/common/CancellationBanner';
 import { SectionHeading } from '@/components/common/SectionHeading';
 import { CalendarIcon, ClockIcon, MapPinIcon } from '@/components/common/icons';
 import { MatchCard } from '@/components/cards/MatchCard';
@@ -43,6 +44,8 @@ export default function HomePage() {
 
   return (
     <>
+      <CancellationBanner />
+
       {/* Hero */}
       <section className="relative border-b border-line" style={heroStyle}>
         <div className="absolute inset-0" style={{ background: heroOverlay }} />

@@ -48,6 +48,16 @@ export const SITE = {
     seasonLength: 16,
   },
 
+  /**
+   * Game-cancellation notice for the home page. Flip `active` to true on
+   * days when games are cancelled or postponed and update `message` to the
+   * current situation. Flip back to false once the season is on track again.
+   */
+  cancellation: {
+    active: true,
+    message: "Tonight's games have been postponed.",
+  },
+
   /** Footer copyright start year. */
   copyrightStartYear: 2019,
 } as const;
