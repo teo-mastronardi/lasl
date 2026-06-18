@@ -54,7 +54,7 @@ export const SITE = {
    * current situation. Flip back to false once the season is on track again.
    */
   cancellation: {
-    active: true,
+    active: false,
     message: "Tonight's games have been postponed.",
   },
 
